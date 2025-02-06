@@ -1,0 +1,45 @@
+{
+  "name": "browser-cache-async",
+  "description": "",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "ts-lib-builder --tsconfig=tsconfig.build.json",
+    "test": "echo \"Error: tests are executed with  npm run test:(e2e|integration|unit|bench)\" && exit 1",
+    "test:integration": "vitest run --config vitest.test-integration.config.ts",
+    "test:unit": "vitest run --config vitest.test-unit.config.ts",
+    "test:bench": "vitest bench",
+    "watch-test:integration": "vitest --config vitest.test-integration.config.ts",
+    "watch-test:unit": "vitest --config vitest.test-unit.config.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesusgraterol/browser-cache-async.git"
+  },
+  "keywords": [
+    "cache",
+    "cache-storage",
+    "performance",
+    "indexed-db",
+    "web-caching",
+    "request-caching"
+  ],
+  "author": "Jesus Graterol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jesusgraterol/browser-cache-async/issues"
+  },
+  "homepage": "https://github.com/jesusgraterol/browser-cache-async#readme",
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "ts-lib-builder": "^1.0.5",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
