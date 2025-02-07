@@ -2,7 +2,7 @@
 import { describe, test, expect, afterEach, vi } from 'vitest';
 import ms from 'ms';
 import { ERRORS } from '../shared/errors.js';
-import { buildQueryOptions, calculateRevalidateTime, wrapData } from './index.js';
+import { buildQueryOptions, calculateRevalidateTime, unwrapData, wrapData } from './index.js';
 
 /* ************************************************************************************************
  *                                             TESTS                                              *
@@ -90,5 +90,29 @@ describe('wrapData', () => {
     vi.useFakeTimers();
     vi.setSystemTime(currentTime);
     expect(wrapData(123, 1000)).toStrictEqual({ data: 123, staleAt: currentTime + 1000 });
+  });
+});
+
+
+
+
+
+describe('unwrapData', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  test('can unwrap fresh data', () => {
+    const currentTime = Date.now();
+    vi.useFakeTimers();
+    vi.setSystemTime(currentTime);
+    expect(unwrapData({ data: { foo: 'baz' }, staleAt: currentTime + 1000 })).toStrictEqual({ foo: 'baz' });
+  });
+
+  test('can unwrap stale data', () => {
+    const currentTime = Date.now();
+    vi.useFakeTimers();
+    vi.setSystemTime(currentTime);
+    expect(unwrapData({ data: { foo: 'baz' }, staleAt: currentTime - 1000 })).toBeUndefined();
   });
 });

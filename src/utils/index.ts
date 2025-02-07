@@ -87,6 +87,15 @@ const wrapData = <T>(data: T, revalidate: number): IWrappedData<T> => ({
   staleAt: Date.now() + revalidate,
 });
 
+/**
+ * Unwraps the data from the wrapped object. If the data is stale, it returns undefined.
+ * @param wrappedData
+ * @returns T | undefined
+ */
+const unwrapData = <T>(wrappedData: IWrappedData<T>): T | undefined => (
+  wrappedData.staleAt > Date.now() ? wrappedData.data : undefined
+);
+
 
 
 
@@ -101,4 +110,5 @@ export {
 
   // data wrapping
   wrapData,
+  unwrapData,
 };
