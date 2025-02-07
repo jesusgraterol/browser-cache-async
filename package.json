@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/jesusgraterol/browser-cache-async#readme",
   "devDependencies": {
+    "@types/ms": "^2.1.0",
     "@types/node": "^22.13.1",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
@@ -41,5 +42,10 @@
     "ts-lib-builder": "^1.0.5",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
+  },
+  "dependencies": {
+    "browser-keyval-stores": "^1.0.0",
+    "error-message-utils": "^1.1.2",
+    "ms": "^2.1.3"
   }
 }
