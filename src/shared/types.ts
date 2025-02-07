@@ -6,6 +6,14 @@ import { IRecordID } from 'browser-keyval-stores';
  ************************************************************************************************ */
 
 /**
+ * Cache If Function
+ * Utility type to indicate the function that will be invoked to evaluate if the data should be
+ * cached.
+ */
+type ICacheIfFn<T> =
+  ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+
+/**
  * Query Options
  * Object in charge of controlling how the query is executed and cached.
  */
@@ -18,7 +26,7 @@ type IQueryOptions<T> = {
 
   // the function that will be invoked to evaluate if the data should be cached. If not provided,
   // the data will always be cached.
-  cacheIf?: ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+  cacheIf?: ICacheIfFn<T>;
 
   // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
   // the data will become stale after 1 day.
@@ -60,6 +68,7 @@ type IWrappedData<T> = {
  ************************************************************************************************ */
 export type {
   // query options
+  ICacheIfFn,
   IQueryOptions,
   IProcessedQueryOptions,
 

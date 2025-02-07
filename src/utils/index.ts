@@ -57,6 +57,7 @@ const calculateRevalidateTime = (revalidate: StringValue | number = '1 day'): nu
  * @returns IProcessedQueryOptions<T>
  * @throws
  * - INVALID_QUERY_FUNCTION: If the query function is not a function.
+ * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or StringValue.
  */
 const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions<T> => {
   if (typeof options.query !== 'function') {

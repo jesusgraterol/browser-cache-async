@@ -76,6 +76,15 @@ class BrowserCache<T> implements IBrowserCache<T> {
     }
   }
 
+  /**
+   * Verifies if the query has already been cached and that its data is still fresh. Otherwise, it
+   * executes the query and caches the data.
+   * @param options
+   * @returns Promise<T | undefined>
+   * @throws
+   * - INVALID_QUERY_FUNCTION: If the query function is not a function.
+   * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or StringValue.
+   */
   public async run(options: IQueryOptions<T>): Promise<T | undefined> {
     // build the options
     const { id, query, cacheIf, revalidate } = buildQueryOptions(options);
@@ -86,6 +95,7 @@ class BrowserCache<T> implements IBrowserCache<T> {
       if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_HIT: ${id}`);
       return cached;
     }
+    if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_MISS: ${id}`);
 
     // execute the query and cache the data
     const data = await query();

@@ -103,6 +103,9 @@ import { BrowserCache } from 'browser-cache-async';
   import { StringValue } from 'ms';
   import { IRecordID } from 'browser-keyval-stores';
 
+  type ICacheIfFn<T> =
+    ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+
   type IQueryOptions<T> = {
     // the record's identifier
     id?: IRecordID;
@@ -112,7 +115,7 @@ import { BrowserCache } from 'browser-cache-async';
 
     // the function that will be invoked to evaluate if the data should be cached. If not provided,
     // the data will always be cached.
-    cacheIf?: (id: IRecordID, record: T) => Promise<boolean>;
+    cacheIf?: ICacheIfFn;
 
     // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
     // the data will become stale after 1 day.
