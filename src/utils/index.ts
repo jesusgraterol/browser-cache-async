@@ -92,8 +92,14 @@ const wrapData = <T>(data: T, revalidate: number): IWrappedData<T> => ({
  * @param wrappedData
  * @returns T | undefined
  */
-const unwrapData = <T>(wrappedData: IWrappedData<T>): T | undefined => (
-  wrappedData.staleAt > Date.now() ? wrappedData.data : undefined
+const unwrapData = <T>(wrappedData: IWrappedData<T> | undefined): T | undefined => (
+  (
+    Boolean(wrappedData)
+    && typeof wrappedData === 'object'
+    && wrappedData.staleAt > Date.now()
+  )
+    ? wrappedData.data
+    : undefined
 );
 
 

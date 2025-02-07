@@ -115,4 +115,8 @@ describe('unwrapData', () => {
     vi.setSystemTime(currentTime);
     expect(unwrapData({ data: { foo: 'baz' }, staleAt: currentTime - 1000 })).toBeUndefined();
   });
+
+  test('returns undefined if no data was passed', () => {
+    expect(unwrapData(undefined)).toBeUndefined();
+  });
 });
