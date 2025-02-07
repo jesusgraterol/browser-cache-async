@@ -1,19 +1,24 @@
 /* eslint-disable no-console */
 import { IIndexedDBStore, IndexedDBStore, IRecordID } from 'browser-keyval-stores';
-import { IQueryOptions, IProcessedQueryOptions } from './shared/types.js';
+import { IQueryOptions, IProcessedQueryOptions, IWrappedData } from './shared/types.js';
+import { unwrapData } from './utils/index.js';
 import { IBrowserCache } from './types.js';
 
 /* ************************************************************************************************
  *                                         IMPLEMENTATION                                         *
  ************************************************************************************************ */
 
+/**
+ * Browser Cache
+ * Object in charge of managing the caching of data in the browser.
+ */
 class BrowserCache<T> implements IBrowserCache<T> {
   /* **********************************************************************************************
    *                                          PROPERTIES                                          *
    ********************************************************************************************** */
 
   // the store that will be used to cache the data
-  private __store: IIndexedDBStore<T>;
+  private __store: IIndexedDBStore<IWrappedData<T>>;
 
   // if enabled, the cache will log debug information
   private __debugMode: boolean;
@@ -26,7 +31,7 @@ class BrowserCache<T> implements IBrowserCache<T> {
    *                                         CONSTRUCTOR                                          *
    ********************************************************************************************** */
   constructor(id: string, debugMode: boolean = false) {
-    this.__store = new IndexedDBStore<T>(id);
+    this.__store = new IndexedDBStore<IWrappedData<T>>(id);
     this.__debugMode = debugMode;
   }
 
@@ -46,10 +51,7 @@ class BrowserCache<T> implements IBrowserCache<T> {
    */
   private async __get(id: IRecordID): Promise<T | undefined> {
     try {
-      const wrappedData = await this.__store.get(id);
-
-      // otherwise, return the data
-      return undefined;
+      return unwrapData(await this.__store.get(id));
     } catch (e) {
       if (this.__debugMode) {
         console.error(e);
@@ -58,7 +60,9 @@ class BrowserCache<T> implements IBrowserCache<T> {
     }
   }
 
-  public run(options: IQueryOptions<T>): Promise<T | undefined> {
+  public async run(options: IQueryOptions<T>): Promise<T | undefined> {
+    // check if the record exists
+    const cached = await this.__get(options.id);
     // ...
     return options.query();
   }
