@@ -33,6 +33,9 @@ describe('calculateRevalidateTime', () => {
 });
 
 
+
+
+
 describe('buildQueryOptions', () => {
   test.each<Array<any>>([
     [
@@ -66,5 +69,9 @@ describe('buildQueryOptions', () => {
     expect(opts.query).toBeTypeOf('function');
     expect(opts.cacheIf).toBeTypeOf(expected.cacheIfType as any);
     expect(opts.revalidate).toBe(expected.revalidate);
+  });
+
+  test('throws an error if the query is not a function', () => {
+    expect(() => buildQueryOptions({ query: 123 } as any)).toThrowError(ERRORS.INVALID_QUERY_FUNCTION);
   });
 });

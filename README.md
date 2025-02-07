@@ -118,6 +118,9 @@ import { BrowserCache } from 'browser-cache-async';
     // the data will become stale after 1 day.
     revalidate?: StringValue | number;
   };
+
+  // the result of processing the query options object passed by the developer
+  type IProcessedQueryOptions<T> = IQueryOptions<T> & { revalidate: number };
   ```
 </details>
 
