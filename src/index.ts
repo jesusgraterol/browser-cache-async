@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
+/* eslint-disable no-lonely-if */
 import { IIndexedDBStore, IndexedDBStore, IRecordID } from 'browser-keyval-stores';
 import { IQueryOptions, IProcessedQueryOptions, IWrappedData } from './shared/types.js';
 import {
@@ -97,7 +98,7 @@ class BrowserCache<T> implements IBrowserCache<T> {
     // check if the record exists - if so, return early
     const cached = await this.__get(id);
     if (cached) {
-      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_HIT: ${id}`);
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_HIT: ${id}`, cached);
       return cached;
     }
     if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_MISS: ${id}`);
@@ -106,14 +107,27 @@ class BrowserCache<T> implements IBrowserCache<T> {
     const data = await query();
     if (await canQueryBeCached(id, data, cacheIf)) {
       await this.__set(id, data, revalidate);
-      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SET: ${id}`);
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SET: ${id}`, data);
     } else {
-      // eslint-disable-next-line no-lonely-if
-      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SKIP: ${id}`);
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SKIP: ${id}`, data);
     }
 
     // finally, return the data
     return data;
+  }
+
+  /**
+   * Deletes a record from the cache - forcing a revalidation the next time it is retrieved.
+   * Note: this is a stable method, it will not throw errors.
+   * @param id
+   * @returns Promise<void>
+   */
+  public async revalidate(id?: IRecordID): Promise<void> {
+    try {
+      await this.__store.del(id);
+    } catch (e) {
+      if (this.__debugMode) console.error(`${this.__store.id}.revalidate(${id}) ->`, e);
+    }
   }
 }
 

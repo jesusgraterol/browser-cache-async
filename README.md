@@ -127,6 +127,22 @@ import { BrowserCache } from 'browser-cache-async';
   ```
 </details>
 
+<details>
+  <summary><code>IBrowserCache</code></summary>
+
+  Object in charge of managing the caching of data in the browser.
+  ```typescript
+  interface IBrowserCache<T> {
+    // properties
+    // ...
+
+    // actions
+    run: (options: IQueryOptions<T>) => Promise<T | undefined>;
+    revalidate(id?: IRecordID): Promise<void>;
+  }
+  ```
+</details>
+
 
 
 

@@ -1,3 +1,4 @@
+import { IRecordID } from 'browser-keyval-stores';
 import { IQueryOptions } from './shared/types.js';
 
 /* ************************************************************************************************
@@ -14,7 +15,10 @@ interface IBrowserCache<T> {
 
   // actions
   run: (options: IQueryOptions<T>) => Promise<T | undefined>;
+  revalidate(id?: IRecordID): Promise<void>;
 }
+
+
 
 
 
