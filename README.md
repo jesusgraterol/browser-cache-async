@@ -34,6 +34,68 @@ import { BrowserCache } from 'browser-cache-async';
 ### Types
 
 <details>
+  <summary><code>IRecordID</code></summary>
+
+  The identifier used to manage records. The store behaves differently based on the type:
+  - `undefined`: the data will be stored at the root of the store
+  - `string` | `number`: the value will be coerced into a string and can be used to locate the data
+  ```typescript
+  type IRecordID = undefined | string | number;
+  ```
+
+  **Note:** this type is exposed by the [`browser-keyval-stores`](https://github.com/jesusgraterol/browser-keyval-stores) package
+</details>
+
+<details>
+  <summary><code>StringValue</code></summary>
+
+  The template literal types that prevents developers from passing invalid strings to the `ms` function.
+  ```typescript
+  type Unit =
+      | "Years"
+      | "Year"
+      | "Yrs"
+      | "Yr"
+      | "Y"
+      | "Weeks"
+      | "Week"
+      | "W"
+      | "Days"
+      | "Day"
+      | "D"
+      | "Hours"
+      | "Hour"
+      | "Hrs"
+      | "Hr"
+      | "H"
+      | "Minutes"
+      | "Minute"
+      | "Mins"
+      | "Min"
+      | "M"
+      | "Seconds"
+      | "Second"
+      | "Secs"
+      | "Sec"
+      | "s"
+      | "Milliseconds"
+      | "Millisecond"
+      | "Msecs"
+      | "Msec"
+      | "Ms";
+
+  type UnitAnyCase = Unit | Uppercase<Unit> | Lowercase<Unit>;
+
+  type StringValue =
+      | `${number}`
+      | `${number}${UnitAnyCase}`
+      | `${number} ${UnitAnyCase}`;
+  ```
+
+  **Note:** this type is exposed by the [`ms`](https://github.com/vercel/ms) package
+</details>
+
+<details>
   <summary><code>IQueryOptions<T></code></summary>
 
   Object in charge of controlling how the query is executed and cached.
