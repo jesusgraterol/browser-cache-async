@@ -2,7 +2,7 @@ import { StringValue } from 'ms';
 import { IRecordID } from 'browser-keyval-stores';
 
 /* ************************************************************************************************
- *                                         IMPLEMENTATION                                         *
+ *                                         QUERY OPTIONS                                          *
  ************************************************************************************************ */
 
 /**
@@ -36,9 +36,33 @@ type IProcessedQueryOptions<T> = IQueryOptions<T> & { revalidate: number };
 
 
 /* ************************************************************************************************
+ *                                         DATA WRAPPING                                          *
+ ************************************************************************************************ */
+
+/**
+ * Wrapped Data
+ * The object that wraps the data in order to control its freshness.
+ */
+type IWrappedData<T> = {
+  // the wrapped data
+  data: T;
+
+  // the time in milliseconds at which the wrapped data becomes stale
+  staleAt: number;
+};
+
+
+
+
+
+/* ************************************************************************************************
  *                                         MODULE EXPORTS                                         *
  ************************************************************************************************ */
 export type {
+  // query options
   IQueryOptions,
   IProcessedQueryOptions,
+
+  // data wrapping
+  IWrappedData,
 };
