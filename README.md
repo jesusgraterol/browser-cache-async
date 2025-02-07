@@ -31,6 +31,37 @@ import { BrowserCache } from 'browser-cache-async';
 
 
 
+### Types
+
+<details>
+  <summary><code>IQueryOptions<T></code></summary>
+
+  Object in charge of controlling how the query is executed and cached.
+  ```typescript
+  import { StringValue } from 'ms';
+  import { IRecordID } from 'browser-keyval-stores';
+
+  type IQueryOptions<T> = {
+    // the record's identifier
+    id?: IRecordID;
+
+    // the function that will be invoked to retrieve the data
+    query: () => Promise<T>;
+
+    // the function that will be invoked to evaluate if the data should be cached. If not provided,
+    // the data will always be cached.
+    cacheIf?: (id: IRecordID, record: T) => Promise<boolean>;
+
+    // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
+    // the data will become stale after 1 day.
+    revalidate?: StringValue | number;
+  };
+  ```
+</details>
+
+
+
+
 
 <br/>
 
