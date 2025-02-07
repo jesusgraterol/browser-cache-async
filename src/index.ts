@@ -1,7 +1,8 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
 import { IIndexedDBStore, IndexedDBStore, IRecordID } from 'browser-keyval-stores';
 import { IQueryOptions, IProcessedQueryOptions, IWrappedData } from './shared/types.js';
-import { unwrapData } from './utils/index.js';
+import { buildQueryOptions, unwrapData, wrapData } from './utils/index.js';
 import { IBrowserCache } from './types.js';
 
 /* ************************************************************************************************
@@ -38,6 +39,7 @@ class BrowserCache<T> implements IBrowserCache<T> {
 
 
 
+
   /* **********************************************************************************************
    *                                           METHODS                                            *
    ********************************************************************************************** */
@@ -53,20 +55,47 @@ class BrowserCache<T> implements IBrowserCache<T> {
     try {
       return unwrapData(await this.__store.get(id));
     } catch (e) {
-      if (this.__debugMode) {
-        console.error(e);
-      }
+      if (this.__debugMode) console.error(`${this.__store.id}.__get(${id}) ->`, e);
       return undefined;
     }
   }
 
+  /**
+   * Stores the data in the cache.
+   * Note: this is a stable method, it will not throw errors.
+   * @param id
+   * @param data
+   * @param revalidate
+   * @returns Promise<void>
+   */
+  private async __set(id: IRecordID, data: T, revalidate: number): Promise<void> {
+    try {
+      await this.__store.set(id, wrapData(data, revalidate));
+    } catch (e) {
+      if (this.__debugMode) console.error(`${this.__store.id}.__set(${id}, ...) ->`, e);
+    }
+  }
+
   public async run(options: IQueryOptions<T>): Promise<T | undefined> {
-    // check if the record exists
-    const cached = await this.__get(options.id);
-    // ...
-    return options.query();
+    // build the options
+    const { id, query, cacheIf, revalidate } = buildQueryOptions(options);
+
+    // check if the record exists - if so, return early
+    const cached = await this.__get(id);
+    if (cached) {
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_HIT: ${id}`);
+      return cached;
+    }
+
+    // execute the query and cache the data
+    const data = await query();
+
+
+    // finally, return the data
+    return data;
   }
 }
+
 
 
 
