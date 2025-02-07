@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, afterEach, vi } from 'vitest';
 import ms from 'ms';
 import { ERRORS } from '../shared/errors.js';
-import { buildQueryOptions, calculateRevalidateTime } from './index.js';
+import { buildQueryOptions, calculateRevalidateTime, wrapData } from './index.js';
 
 /* ************************************************************************************************
  *                                             TESTS                                              *
@@ -73,5 +73,22 @@ describe('buildQueryOptions', () => {
 
   test('throws an error if the query is not a function', () => {
     expect(() => buildQueryOptions({ query: 123 } as any)).toThrowError(ERRORS.INVALID_QUERY_FUNCTION);
+  });
+});
+
+
+
+
+
+describe('wrapData', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  test('can wrap a piece of data', () => {
+    const currentTime = Date.now();
+    vi.useFakeTimers();
+    vi.setSystemTime(currentTime);
+    expect(wrapData(123, 1000)).toStrictEqual({ data: 123, staleAt: currentTime + 1000 });
   });
 });

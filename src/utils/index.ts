@@ -1,6 +1,6 @@
 import ms, { StringValue } from 'ms';
 import { encodeError } from 'error-message-utils';
-import { IProcessedQueryOptions, IQueryOptions } from '../shared/types.js';
+import { IProcessedQueryOptions, IQueryOptions, IWrappedData } from '../shared/types.js';
 import { ERRORS } from '../shared/errors.js';
 
 /* ************************************************************************************************
@@ -76,6 +76,17 @@ const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions
  *                                         DATA WRAPPING                                          *
  ************************************************************************************************ */
 
+/**
+ * Wraps a given record with a timestamp indicating when it will become stale.
+ * @param data
+ * @param revalidate
+ * @returns IWrappedData<T>
+ */
+const wrapData = <T>(data: T, revalidate: number): IWrappedData<T> => ({
+  data,
+  staleAt: Date.now() + revalidate,
+});
+
 
 
 
@@ -89,4 +100,5 @@ export {
   buildQueryOptions,
 
   // data wrapping
+  wrapData,
 };
