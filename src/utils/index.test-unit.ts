@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { describe, test, expect } from 'vitest';
-import { calculateRevalidateTime } from './index.js';
+import ms from 'ms';
 import { ERRORS } from '../shared/errors.js';
+import { buildQueryOptions, calculateRevalidateTime } from './index.js';
 
 /* ************************************************************************************************
  *                                             TESTS                                              *
@@ -27,5 +29,42 @@ describe('calculateRevalidateTime', () => {
     [' '],
   ])('calculateRevalidateTime(%s) -> INVALID_REVALIDATE_VALUE', (input) => {
     expect(() => calculateRevalidateTime(input)).toThrowError(ERRORS.INVALID_REVALIDATE_VALUE);
+  });
+});
+
+
+describe('buildQueryOptions', () => {
+  test.each<Array<any>>([
+    [
+      { query: () => Promise.resolve(123) },
+      { id: undefined, cacheIfType: 'undefined', revalidate: 86400000 },
+    ],
+    [
+      { id: '7281bfdc-c983-4d03-b7ad-96db698b4a14', query: () => Promise.resolve(123) },
+      { id: '7281bfdc-c983-4d03-b7ad-96db698b4a14', cacheIfType: 'undefined', revalidate: 86400000 },
+    ],
+    [
+      { id: 123, query: () => Promise.resolve(123), cacheIf: () => true },
+      { id: 123, cacheIfType: 'function', revalidate: 86400000 },
+    ],
+    [
+      { id: 123, query: () => Promise.resolve(123), cacheIf: () => Promise.resolve(true) },
+      { id: 123, cacheIfType: 'function', revalidate: 86400000 },
+    ],
+    [
+      { id: 123, query: () => Promise.resolve(123), cacheIf: () => Promise.resolve(true), revalidate: 546123 },
+      { id: 123, cacheIfType: 'function', revalidate: 546123 },
+    ],
+    [
+      { id: 123, query: () => Promise.resolve(123), cacheIf: () => Promise.resolve(true), revalidate: '7 days' },
+      { id: 123, cacheIfType: 'function', revalidate: ms('7 days') },
+    ],
+  ])('buildQueryOptions(%o) -> %o', (input, expected) => {
+    const opts = buildQueryOptions(input);
+    expect(opts).toBeTypeOf('object');
+    expect(opts.id).toBe(expected.id);
+    expect(opts.query).toBeTypeOf('function');
+    expect(opts.cacheIf).toBeTypeOf(expected.cacheIfType as any);
+    expect(opts.revalidate).toBe(expected.revalidate);
   });
 });

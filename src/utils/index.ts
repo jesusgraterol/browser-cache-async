@@ -1,9 +1,10 @@
 import ms, { StringValue } from 'ms';
 import { encodeError } from 'error-message-utils';
+import { IProcessedQueryOptions, IQueryOptions } from '../shared/types.js';
 import { ERRORS } from '../shared/errors.js';
 
 /* ************************************************************************************************
- *                                         IMPLEMENTATION                                         *
+ *                                         QUERY OPTIONS                                          *
  ************************************************************************************************ */
 
 /**
@@ -49,6 +50,24 @@ const calculateRevalidateTime = (revalidate: StringValue | number = '1 day'): nu
   return result;
 };
 
+/**
+ * Validates and builds the query options object based on a partial one. It also calculates the
+ * revalidate time.
+ * @param options
+ * @returns IProcessedQueryOptions<T>
+ * @throws
+ * - INVALID_QUERY_FUNCTION: If the query function is not a function.
+ */
+const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions<T> => {
+  if (typeof options.query !== 'function') {
+    throw new Error(encodeError('The query function provided in the functions is invalid.', ERRORS.INVALID_QUERY_FUNCTION));
+  }
+  return {
+    ...options,
+    revalidate: calculateRevalidateTime(options.revalidate),
+  };
+};
+
 
 
 
@@ -57,5 +76,7 @@ const calculateRevalidateTime = (revalidate: StringValue | number = '1 day'): nu
  *                                         MODULE EXPORTS                                         *
  ************************************************************************************************ */
 export {
+  // query options
   calculateRevalidateTime,
+  buildQueryOptions,
 };

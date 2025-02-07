@@ -18,12 +18,18 @@ type IQueryOptions<T> = {
 
   // the function that will be invoked to evaluate if the data should be cached. If not provided,
   // the data will always be cached.
-  cacheIf?: (id: IRecordID, record: T) => Promise<boolean>;
+  cacheIf?: ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
 
   // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
   // the data will become stale after 1 day.
   revalidate?: StringValue | number;
 };
+
+/**
+ * Processed Query Options
+ * The result of processing the query options object passed by the developer.
+ */
+type IProcessedQueryOptions<T> = IQueryOptions<T> & { revalidate: number };
 
 
 
@@ -34,4 +40,5 @@ type IQueryOptions<T> = {
  ************************************************************************************************ */
 export type {
   IQueryOptions,
+  IProcessedQueryOptions,
 };
