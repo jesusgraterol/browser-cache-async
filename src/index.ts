@@ -2,7 +2,12 @@
 /* eslint-disable no-console */
 import { IIndexedDBStore, IndexedDBStore, IRecordID } from 'browser-keyval-stores';
 import { IQueryOptions, IProcessedQueryOptions, IWrappedData } from './shared/types.js';
-import { buildQueryOptions, unwrapData, wrapData } from './utils/index.js';
+import {
+  buildQueryOptions,
+  canQueryBeCached,
+  unwrapData,
+  wrapData,
+} from './utils/index.js';
 import { IBrowserCache } from './types.js';
 
 /* ************************************************************************************************
@@ -99,7 +104,13 @@ class BrowserCache<T> implements IBrowserCache<T> {
 
     // execute the query and cache the data
     const data = await query();
-
+    if (await canQueryBeCached(id, data, cacheIf)) {
+      await this.__set(id, data, revalidate);
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SET: ${id}`);
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (this.__debugMode) console.log(`${this.__store.id} -> CACHE_SKIP: ${id}`);
+    }
 
     // finally, return the data
     return data;

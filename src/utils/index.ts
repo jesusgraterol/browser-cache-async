@@ -1,6 +1,12 @@
 import ms, { StringValue } from 'ms';
 import { encodeError } from 'error-message-utils';
-import { IProcessedQueryOptions, IQueryOptions, IWrappedData } from '../shared/types.js';
+import { IRecordID } from 'browser-keyval-stores';
+import {
+  ICacheIfFn,
+  IProcessedQueryOptions,
+  IQueryOptions,
+  IWrappedData,
+} from '../shared/types.js';
 import { ERRORS } from '../shared/errors.js';
 
 /* ************************************************************************************************
@@ -69,6 +75,24 @@ const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions
   };
 };
 
+/**
+ * Verifies if the data retrieved from the query can be cached based on the cacheIf function.
+ * @param id
+ * @param data
+ * @param cacheIf
+ * @returns Promise<boolean>
+ */
+const canQueryBeCached = async <T>(
+  id: IRecordID,
+  data: T,
+  cacheIf: ICacheIfFn<T> | undefined,
+): Promise<boolean> => {
+  if (typeof cacheIf === 'function') {
+    return cacheIf(id, data);
+  }
+  return true;
+};
+
 
 
 
@@ -114,6 +138,7 @@ export {
   // query options
   calculateRevalidateTime,
   buildQueryOptions,
+  canQueryBeCached,
 
   // data wrapping
   wrapData,
