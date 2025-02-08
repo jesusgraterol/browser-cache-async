@@ -20,12 +20,56 @@ npm install -S browser-cache-async
 
 ## Usage
 
-...:
+Cache the result of a `fetch` request:
 
 ```typescript
 import { BrowserCache } from 'browser-cache-async';
+import { IProduct } from './types.js';
 
-...
+const cache = new BrowserCache<IProduct>('products');
+
+// retrieve and cache the product. If revalidate is not provided, the data becomes stale after 24 hours
+const id = 1;
+const product = cache.run({
+  id,
+  query: async () => {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+    return res.json();
+  }
+});
+// {
+//   id: 1,
+//   title: '...',
+//   price: '...',
+//   category: '...',
+//   description: '...',
+//   image: '...'
+// }
+```
+
+Cache an article for 2 weeks if it has been published:
+
+```typescript
+import { BrowserCache } from 'browser-cache-async';
+import { BackendService } from './backend.js';
+import { IArticle } from './types.js';
+
+const cache = new BrowserCache<IArticle>('articles');
+
+const id = 'db6d9d01-8d67-4765-8baa-2210cbc0470e';
+const article = cache.run({
+  id,
+  query: async () => BackendService.getArticle(id),
+  cacheIf: (id: IRecordID, data: IArticle) => data.isDraft === false,
+  revalidate: '2 weeks'
+});
+// {
+//   id: 'db6d9d01-8d67-4765-8baa-2210cbc0470e',
+//   heading: '...',
+//   subHeading: '...',
+//   content: '...',
+//   isDraft: false
+// }
 ```
 
 
