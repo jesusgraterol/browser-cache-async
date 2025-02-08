@@ -2,7 +2,7 @@
   "name": "browser-cache-async",
   "description": "The browser-cache-async package provides a highly customizable, asynchronous caching system for client-side data management. Leveraging the power of the browser's IndexedDB, it enables efficient storage and retrieval of API responses, significantly reducing network latency and improving application performance.",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

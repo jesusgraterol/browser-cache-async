@@ -14,6 +14,12 @@ type ICacheIfFn<T> =
   ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
 
 /**
+ * String Value
+ * Utility type to indicate that the value can be any template literal supported by the ms package.
+ */
+type IStringValue = StringValue;
+
+/**
  * Query Options
  * Object in charge of controlling how the query is executed and cached.
  */
@@ -30,7 +36,7 @@ type IQueryOptions<T> = {
 
   // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
   // the data will become stale after 1 day.
-  revalidate?: StringValue | number;
+  revalidate?: IStringValue | number;
 };
 
 /**
@@ -69,6 +75,7 @@ type IWrappedData<T> = {
 export type {
   // query options
   ICacheIfFn,
+  IStringValue,
   IQueryOptions,
   IProcessedQueryOptions,
 

@@ -90,7 +90,7 @@ await cache.revalidate(id);
   type IRecordID = undefined | string | number;
   ```
 
-  **Note:** this type is exposed by the [`browser-keyval-stores`](https://github.com/jesusgraterol/browser-keyval-stores) package
+  **Note:** this type is exposed by the [`browser-keyval-stores`](https://github.com/jesusgraterol/browser-keyval-stores) package.
 </details>
 
 <details>
@@ -139,7 +139,7 @@ await cache.revalidate(id);
       | `${number} ${UnitAnyCase}`;
   ```
 
-  **Note:** this type is exposed by the [`ms`](https://github.com/vercel/ms) package
+  **Note:** this type is exposed by the [`ms`](https://github.com/vercel/ms) package`.
 </details>
 
 <details>
@@ -152,6 +152,8 @@ await cache.revalidate(id);
 
   type ICacheIfFn<T> =
     ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+
+  type IStringValue = StringValue;
 
   type IQueryOptions<T> = {
     // the record's identifier
@@ -166,7 +168,7 @@ await cache.revalidate(id);
 
     // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
     // the data will become stale after 1 day.
-    revalidate?: StringValue | number;
+    revalidate?: IStringValue | number;
   };
 
   // the result of processing the query options object passed by the developer

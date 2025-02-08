@@ -1,8 +1,9 @@
-import ms, { StringValue } from 'ms';
+import ms from 'ms';
 import { encodeError } from 'error-message-utils';
 import { IRecordID } from 'browser-keyval-stores';
 import {
   ICacheIfFn,
+  IStringValue,
   IProcessedQueryOptions,
   IQueryOptions,
   IWrappedData,
@@ -19,7 +20,7 @@ import { ERRORS } from '../shared/errors.js';
  * @param value
  * @returns number | undefined
  */
-const __ms = (value: StringValue): number | undefined => {
+const __ms = (value: IStringValue): number | undefined => {
   try {
     return ms(value);
   } catch (e) {
@@ -35,7 +36,7 @@ const __ms = (value: StringValue): number | undefined => {
  * @throws
  * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or StringValue.
  */
-const calculateRevalidateTime = (revalidate: StringValue | number = '1 day'): number => {
+const calculateRevalidateTime = (revalidate: IStringValue | number = '1 day'): number => {
   // init the result
   let result;
 
