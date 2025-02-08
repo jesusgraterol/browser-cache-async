@@ -184,7 +184,7 @@ await cache.revalidate(id);
     // ...
 
     // actions
-    run: (options: IQueryOptions<T>) => Promise<T | undefined>;
+    run: (options: IQueryOptions<T>) => Promise<T>;
     revalidate(id?: IRecordID): Promise<void>;
   }
   ```
