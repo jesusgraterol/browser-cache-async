@@ -2,7 +2,13 @@
 import { describe, test, expect, afterEach, vi } from 'vitest';
 import ms from 'ms';
 import { ERRORS } from '../shared/errors.js';
-import { buildQueryOptions, calculateRevalidateTime, unwrapData, wrapData } from './index.js';
+import {
+  calculateRevalidateTime,
+  buildQueryOptions,
+  canQueryBeCached,
+  wrapData,
+  unwrapData,
+} from './index.js';
 
 /* ************************************************************************************************
  *                                             TESTS                                              *
@@ -73,6 +79,20 @@ describe('Query Options', () => {
 
     test('throws an error if the query is not a function', () => {
       expect(() => buildQueryOptions({ query: 123 } as any)).toThrowError(ERRORS.INVALID_QUERY_FUNCTION);
+    });
+  });
+
+
+
+  describe('canQueryBeCached', () => {
+    test.each([
+      ['some-id', { foo: 'bar' }, undefined, true],
+      ['some-id', { foo: 'bar' }, () => true, true],
+      ['some-id', { foo: 'bar' }, () => false, false],
+      ['some-id', { foo: 'bar' }, () => Promise.resolve(true), true],
+      ['some-id', { foo: 'bar' }, () => Promise.resolve(false), false],
+    ])('', async (id, data, cacheIf, expected) => {
+      await expect(canQueryBeCached(id, data, cacheIf)).resolves.toBe(expected);
     });
   });
 });
