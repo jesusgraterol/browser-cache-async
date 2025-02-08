@@ -30,7 +30,7 @@ const cache = new BrowserCache<IProduct>('products');
 
 // retrieve and cache the product. If revalidate is not provided, the data becomes stale after 24 hours
 const id = 1;
-const product = cache.run({
+const product = await cache.run({
   id,
   query: async () => {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
@@ -57,7 +57,7 @@ import { IArticle } from './types.js';
 const cache = new BrowserCache<IArticle>('articles');
 
 const id = 'db6d9d01-8d67-4765-8baa-2210cbc0470e';
-const article = cache.run({
+const article = await cache.run({
   id,
   query: async () => BackendService.getArticle(id),
   cacheIf: (id: IRecordID, data: IArticle) => data.isDraft === false,
