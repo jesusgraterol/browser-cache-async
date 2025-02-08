@@ -70,6 +70,9 @@ const article = await cache.run({
 //   content: '...',
 //   isDraft: false
 // }
+
+// if the article is updated or removed, trigger a revalidation manually
+await cache.revalidate(id);
 ```
 
 
