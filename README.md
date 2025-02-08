@@ -94,52 +94,62 @@ await cache.revalidate(id);
 </details>
 
 <details>
-  <summary><code>StringValue</code></summary>
+  <summary><code>IStringValue</code></summary>
 
   The template literal types that prevents developers from passing invalid strings to the `ms` function.
   ```typescript
-  type Unit =
-      | "Years"
-      | "Year"
-      | "Yrs"
-      | "Yr"
-      | "Y"
-      | "Weeks"
-      | "Week"
-      | "W"
-      | "Days"
-      | "Day"
-      | "D"
-      | "Hours"
-      | "Hour"
-      | "Hrs"
-      | "Hr"
-      | "H"
-      | "Minutes"
-      | "Minute"
-      | "Mins"
-      | "Min"
-      | "M"
-      | "Seconds"
-      | "Second"
-      | "Secs"
-      | "Sec"
-      | "s"
-      | "Milliseconds"
-      | "Millisecond"
-      | "Msecs"
-      | "Msec"
-      | "Ms";
+  type IUnit =
+  | 'Years'
+  | 'Year'
+  | 'Yrs'
+  | 'Yr'
+  | 'Y'
+  | 'Weeks'
+  | 'Week'
+  | 'W'
+  | 'Days'
+  | 'Day'
+  | 'D'
+  | 'Hours'
+  | 'Hour'
+  | 'Hrs'
+  | 'Hr'
+  | 'H'
+  | 'Minutes'
+  | 'Minute'
+  | 'Mins'
+  | 'Min'
+  | 'M'
+  | 'Seconds'
+  | 'Second'
+  | 'Secs'
+  | 'Sec'
+  | 's'
+  | 'Milliseconds'
+  | 'Millisecond'
+  | 'Msecs'
+  | 'Msec'
+  | 'Ms';
 
-  type UnitAnyCase = Unit | Uppercase<Unit> | Lowercase<Unit>;
+  type IUnitAnyCase = IUnit | Uppercase<IUnit> | Lowercase<IUnit>;
 
-  type StringValue =
-      | `${number}`
-      | `${number}${UnitAnyCase}`
-      | `${number} ${UnitAnyCase}`;
+  type IStringValue =
+  | `${number}`
+  | `${number}${IUnitAnyCase}`
+  | `${number} ${IUnitAnyCase}`;
   ```
 
   **Note:** this type is exposed by the [`ms`](https://github.com/vercel/ms) package`.
+</details>
+
+<details>
+  <summary><code>ICacheIfFn<T></code></summary>
+
+  Utility type to indicate the function that will be invoked to evaluate if the data should be cached.
+  ```typescript
+  type ICacheIfFn<T> =
+    ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+  ```
 </details>
 
 <details>
@@ -147,13 +157,7 @@ await cache.revalidate(id);
 
   Object in charge of controlling how the query is executed and cached.
   ```typescript
-  import { StringValue } from 'ms';
   import { IRecordID } from 'browser-keyval-stores';
-
-  type ICacheIfFn<T> =
-    ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
-
-  type IStringValue = StringValue;
 
   type IQueryOptions<T> = {
     // the record's identifier

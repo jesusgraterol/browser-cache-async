@@ -1,4 +1,3 @@
-import { StringValue } from 'ms';
 import { IRecordID } from 'browser-keyval-stores';
 
 /* ************************************************************************************************
@@ -17,7 +16,45 @@ type ICacheIfFn<T> =
  * String Value
  * Utility type to indicate that the value can be any template literal supported by the ms package.
  */
-type IStringValue = StringValue;
+type IUnit =
+| 'Years'
+| 'Year'
+| 'Yrs'
+| 'Yr'
+| 'Y'
+| 'Weeks'
+| 'Week'
+| 'W'
+| 'Days'
+| 'Day'
+| 'D'
+| 'Hours'
+| 'Hour'
+| 'Hrs'
+| 'Hr'
+| 'H'
+| 'Minutes'
+| 'Minute'
+| 'Mins'
+| 'Min'
+| 'M'
+| 'Seconds'
+| 'Second'
+| 'Secs'
+| 'Sec'
+| 's'
+| 'Milliseconds'
+| 'Millisecond'
+| 'Msecs'
+| 'Msec'
+| 'Ms';
+
+type IUnitAnyCase = IUnit | Uppercase<IUnit> | Lowercase<IUnit>;
+
+type IStringValue =
+| `${number}`
+| `${number}${IUnitAnyCase}`
+| `${number} ${IUnitAnyCase}`;
 
 /**
  * Query Options
