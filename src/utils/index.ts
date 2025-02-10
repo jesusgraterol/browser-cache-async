@@ -86,10 +86,13 @@ const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions
 const canQueryBeCached = async <T>(
   id: IRecordID,
   data: T,
-  cacheIf: ICacheIfFn<T> | undefined,
+  cacheIf: ICacheIfFn<T> | boolean | undefined,
 ): Promise<boolean> => {
   if (typeof cacheIf === 'function') {
     return cacheIf(id, data);
+  }
+  if (typeof cacheIf === 'boolean') {
+    return cacheIf;
   }
   return true;
 };

@@ -69,7 +69,7 @@ type IQueryOptions<T> = {
 
   // the function that will be invoked to evaluate if the data should be cached. If not provided,
   // the data will always be cached.
-  cacheIf?: ICacheIfFn<T>;
+  cacheIf?: ICacheIfFn<T> | boolean;
 
   // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
   // the data will become stale after 1 day.

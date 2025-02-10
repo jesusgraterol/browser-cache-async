@@ -87,6 +87,8 @@ describe('Query Options', () => {
   describe('canQueryBeCached', () => {
     test.each([
       ['some-id', { foo: 'bar' }, undefined, true],
+      ['some-id', { foo: 'bar' }, true, true],
+      ['some-id', { foo: 'bar' }, false, false],
       ['some-id', { foo: 'bar' }, () => true, true],
       ['some-id', { foo: 'bar' }, () => false, false],
       ['some-id', { foo: 'bar' }, () => Promise.resolve(true), true],
