@@ -14,7 +14,7 @@ With flexible configuration options for cache lifecycles, expiration strategies,
 
 Install the package:
 ```bash
-npm install -S browser-cache-async
+npm i -S browser-cache-async
 ```
 
 
@@ -82,6 +82,7 @@ await cache.revalidate(id);
 
 <details>
   <summary><code>IRecordID</code></summary>
+  <br/>
 
   The identifier used to manage records. The store behaves differently based on the type:
   - `undefined`: the data will be stored at the root of the store
@@ -91,10 +92,12 @@ await cache.revalidate(id);
   ```
 
   **Note:** this type is exposed by the [`browser-keyval-stores`](https://github.com/jesusgraterol/browser-keyval-stores) package.
+  <br/>
 </details>
 
 <details>
   <summary><code>IStringValue</code></summary>
+  <br/>
 
   The template literal types that prevents developers from passing invalid strings to the `ms` function.
   ```typescript
@@ -140,20 +143,24 @@ await cache.revalidate(id);
   ```
 
   **Note:** this type is exposed by the [`ms`](https://github.com/vercel/ms) package`.
+  <br/>
 </details>
 
 <details>
   <summary><code>ICacheIfFn<T></code></summary>
+  <br/>
 
   Utility type to indicate the function that will be invoked to evaluate if the data should be cached.
   ```typescript
   type ICacheIfFn<T> =
     ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
   ```
+  <br/>
 </details>
 
 <details>
   <summary><code>IQueryOptions<T></code></summary>
+  <br/>
 
   Object in charge of controlling how the query is executed and cached.
   ```typescript
@@ -178,10 +185,12 @@ await cache.revalidate(id);
   // the result of processing the query options object passed by the developer
   type IProcessedQueryOptions<T> = IQueryOptions<T> & { revalidate: number };
   ```
+  <br/>
 </details>
 
 <details>
   <summary><code>IBrowserCache</code></summary>
+  <br/>
 
   Object in charge of managing the caching of data in the browser.
   ```typescript
@@ -194,6 +203,7 @@ await cache.revalidate(id);
     revalidate(id?: IRecordID): Promise<void>;
   }
   ```
+  <br/>
 </details>
 
 
@@ -231,28 +241,3 @@ npm run test:unit
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-
-
-
-
-<br/>
-
-## Deployment
-
-Install dependencies:
-```bash
-npm install
-```
-
-
-Build the library:
-```bash
-npm start
-```
-
-
-Publish to `npm`:
-```bash
-npm publish
-```

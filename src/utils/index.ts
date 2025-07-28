@@ -50,7 +50,12 @@ const calculateRevalidateTime = (revalidate: IStringValue | number = '1 day'): n
 
   // ensure the revalidate value is valid
   if (typeof result !== 'number') {
-    throw new Error(encodeError(`The provided revalidate value '${revalidate}' is invalid. Please provide either a numeric value representing milliseconds (e.g., 1000) or a valid time duration string (e.g., "1 hour" or "35 s").`, ERRORS.INVALID_REVALIDATE_VALUE));
+    throw new Error(
+      encodeError(
+        `The provided revalidate value '${revalidate}' is invalid. Please provide either a numeric value representing milliseconds (e.g., 1000) or a valid time duration string (e.g., "1 hour" or "35 s").`,
+        ERRORS.INVALID_REVALIDATE_VALUE,
+      ),
+    );
   }
 
   // finally, return the result
@@ -68,7 +73,12 @@ const calculateRevalidateTime = (revalidate: IStringValue | number = '1 day'): n
  */
 const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions<T> => {
   if (typeof options.query !== 'function') {
-    throw new Error(encodeError('The query function provided in the functions is invalid.', ERRORS.INVALID_QUERY_FUNCTION));
+    throw new Error(
+      encodeError(
+        'The query function provided in the functions is invalid.',
+        ERRORS.INVALID_QUERY_FUNCTION,
+      ),
+    );
   }
   return {
     ...options,
@@ -97,10 +107,6 @@ const canQueryBeCached = async <T>(
   return true;
 };
 
-
-
-
-
 /* ************************************************************************************************
  *                                         DATA WRAPPING                                          *
  ************************************************************************************************ */
@@ -121,19 +127,10 @@ const wrapData = <T>(data: T, revalidate: number): IWrappedData<T> => ({
  * @param wrappedData
  * @returns T | undefined
  */
-const unwrapData = <T>(wrappedData: IWrappedData<T> | undefined): T | undefined => (
-  (
-    Boolean(wrappedData)
-    && typeof wrappedData === 'object'
-    && wrappedData.staleAt > Date.now()
-  )
+const unwrapData = <T>(wrappedData: IWrappedData<T> | undefined): T | undefined =>
+  Boolean(wrappedData) && typeof wrappedData === 'object' && wrappedData.staleAt > Date.now()
     ? wrappedData.data
-    : undefined
-);
-
-
-
-
+    : undefined;
 
 /* ************************************************************************************************
  *                                         MODULE EXPORTS                                         *

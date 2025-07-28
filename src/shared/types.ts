@@ -10,51 +10,49 @@ import { IRecordID } from 'browser-keyval-stores';
  * cached.
  */
 type ICacheIfFn<T> =
-  ((id: IRecordID, data: T) => Promise<boolean>) | ((id: IRecordID, data: T) => boolean);
+  | ((id: IRecordID, data: T) => Promise<boolean>)
+  | ((id: IRecordID, data: T) => boolean);
 
 /**
  * String Value
  * Utility type to indicate that the value can be any template literal supported by the ms package.
  */
 type IUnit =
-| 'Years'
-| 'Year'
-| 'Yrs'
-| 'Yr'
-| 'Y'
-| 'Weeks'
-| 'Week'
-| 'W'
-| 'Days'
-| 'Day'
-| 'D'
-| 'Hours'
-| 'Hour'
-| 'Hrs'
-| 'Hr'
-| 'H'
-| 'Minutes'
-| 'Minute'
-| 'Mins'
-| 'Min'
-| 'M'
-| 'Seconds'
-| 'Second'
-| 'Secs'
-| 'Sec'
-| 's'
-| 'Milliseconds'
-| 'Millisecond'
-| 'Msecs'
-| 'Msec'
-| 'Ms';
+  | 'Years'
+  | 'Year'
+  | 'Yrs'
+  | 'Yr'
+  | 'Y'
+  | 'Weeks'
+  | 'Week'
+  | 'W'
+  | 'Days'
+  | 'Day'
+  | 'D'
+  | 'Hours'
+  | 'Hour'
+  | 'Hrs'
+  | 'Hr'
+  | 'H'
+  | 'Minutes'
+  | 'Minute'
+  | 'Mins'
+  | 'Min'
+  | 'M'
+  | 'Seconds'
+  | 'Second'
+  | 'Secs'
+  | 'Sec'
+  | 's'
+  | 'Milliseconds'
+  | 'Millisecond'
+  | 'Msecs'
+  | 'Msec'
+  | 'Ms';
 
 type IUnitAnyCase = IUnit | Uppercase<IUnit> | Lowercase<IUnit>;
 
-type IStringValue =
-| `${number}`
-| `${number}${IUnitAnyCase}`
-| `${number} ${IUnitAnyCase}`;
+type IStringValue = `${number}` | `${number}${IUnitAnyCase}` | `${number} ${IUnitAnyCase}`;
 
 /**
  * Query Options
@@ -82,10 +80,6 @@ type IQueryOptions<T> = {
  */
 type IProcessedQueryOptions<T> = IQueryOptions<T> & { revalidate: number };
 
-
-
-
-
 /* ************************************************************************************************
  *                                         DATA WRAPPING                                          *
  ************************************************************************************************ */
@@ -101,10 +95,6 @@ type IWrappedData<T> = {
   // the time in milliseconds at which the wrapped data becomes stale
   staleAt: number;
 };
-
-
-
-
 
 /* ************************************************************************************************
  *                                         MODULE EXPORTS                                         *

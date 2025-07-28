@@ -1,6 +1,11 @@
+/.github
 /src
 .eslintrc.json
-/tsconfig.json
-/tsconfig.build.json
-/vitest.test-integration.config.ts
-/vitest.test-unit.config.ts
+.gitignore
+.prettierignore
+.prettierrc
+tsconfig.json
+tsconfig.build.json
+vitest.test-e2e.config.ts
+vitest.test-integration.config.ts
+vitest.test-unit.config.ts
