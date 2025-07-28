@@ -18,13 +18,7 @@ interface IBrowserCache<T> {
   revalidate(id?: IRecordID): Promise<void>;
 }
 
-
-
-
-
 /* ************************************************************************************************
  *                                         MODULE EXPORTS                                         *
  ************************************************************************************************ */
-export type {
-  IBrowserCache,
-};
+export type { IBrowserCache };

@@ -2,7 +2,7 @@
   "name": "browser-cache-async",
   "description": "The browser-cache-async package provides a highly customizable, asynchronous caching system for client-side data management. Leveraging the power of the browser's IndexedDB, it enables efficient storage and retrieval of API responses, significantly reducing network latency and improving application performance.",
   "private": false,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,18 +34,18 @@
   },
   "homepage": "https://github.com/jesusgraterol/browser-cache-async#readme",
   "devDependencies": {
-    "@types/ms": "^2.1.0",
-    "@types/node": "^22.13.1",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint-config-airbnb-typescript": "^18.0.0",
-    "ts-lib-builder": "^1.0.5",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "@types/ms": "2.1.0",
+    "@types/node": "22.13.1",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "eslint-config-airbnb-typescript": "18.0.0",
+    "ts-lib-builder": "1.0.7",
+    "typescript": "5.7.3",
+    "vitest": "3.0.5"
   },
   "dependencies": {
-    "browser-keyval-stores": "^1.0.0",
-    "error-message-utils": "^1.1.2",
-    "ms": "^2.1.3"
+    "browser-keyval-stores": "1.0.1",
+    "error-message-utils": "1.1.5",
+    "ms": "2.1.3"
   }
 }

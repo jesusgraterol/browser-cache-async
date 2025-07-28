@@ -9,12 +9,7 @@ import {
   IProcessedQueryOptions,
   IWrappedData,
 } from './shared/types.js';
-import {
-  buildQueryOptions,
-  canQueryBeCached,
-  unwrapData,
-  wrapData,
-} from './utils/index.js';
+import { buildQueryOptions, canQueryBeCached, unwrapData, wrapData } from './utils/index.js';
 import { IBrowserCache } from './types.js';
 
 /* ************************************************************************************************
@@ -36,10 +31,6 @@ class BrowserCache<T> implements IBrowserCache<T> {
   // if enabled, the cache will log debug information
   private __debugMode: boolean;
 
-
-
-
-
   /* **********************************************************************************************
    *                                         CONSTRUCTOR                                          *
    ********************************************************************************************** */
@@ -47,10 +38,6 @@ class BrowserCache<T> implements IBrowserCache<T> {
     this.__store = new IndexedDBStore<IWrappedData<T>>(id);
     this.__debugMode = debugMode;
   }
-
-
-
-
 
   /* **********************************************************************************************
    *                                           METHODS                                            *
@@ -136,10 +123,6 @@ class BrowserCache<T> implements IBrowserCache<T> {
     }
   }
 }
-
-
-
-
 
 /* ************************************************************************************************
  *                                         MODULE EXPORTS                                         *

@@ -14,7 +14,6 @@ import {
  *                                             TESTS                                              *
  ************************************************************************************************ */
 
-
 describe('Query Options', () => {
   describe('calculateRevalidateTime', () => {
     test.each<Array<any>>([
@@ -29,18 +28,13 @@ describe('Query Options', () => {
       expect(calculateRevalidateTime(input)).toBe(expected);
     });
 
-    test.each<Array<any>>([
-      ['1 dddd'],
-      ['1 dayz'],
-      ['invalid'],
-      [''],
-      [' '],
-    ])('calculateRevalidateTime(%s) -> INVALID_REVALIDATE_VALUE', (input) => {
-      expect(() => calculateRevalidateTime(input)).toThrowError(ERRORS.INVALID_REVALIDATE_VALUE);
-    });
+    test.each<Array<any>>([['1 dddd'], ['1 dayz'], ['invalid'], [''], [' ']])(
+      'calculateRevalidateTime(%s) -> INVALID_REVALIDATE_VALUE',
+      (input) => {
+        expect(() => calculateRevalidateTime(input)).toThrowError(ERRORS.INVALID_REVALIDATE_VALUE);
+      },
+    );
   });
-
-
 
   describe('buildQueryOptions', () => {
     test.each<Array<any>>([
@@ -50,7 +44,11 @@ describe('Query Options', () => {
       ],
       [
         { id: '7281bfdc-c983-4d03-b7ad-96db698b4a14', query: () => Promise.resolve(123) },
-        { id: '7281bfdc-c983-4d03-b7ad-96db698b4a14', cacheIfType: 'undefined', revalidate: 86400000 },
+        {
+          id: '7281bfdc-c983-4d03-b7ad-96db698b4a14',
+          cacheIfType: 'undefined',
+          revalidate: 86400000,
+        },
       ],
       [
         { id: 123, query: () => Promise.resolve(123), cacheIf: () => true },
@@ -61,11 +59,21 @@ describe('Query Options', () => {
         { id: 123, cacheIfType: 'function', revalidate: 86400000 },
       ],
       [
-        { id: 123, query: () => Promise.resolve(123), cacheIf: () => Promise.resolve(true), revalidate: 546123 },
+        {
+          id: 123,
+          query: () => Promise.resolve(123),
+          cacheIf: () => Promise.resolve(true),
+          revalidate: 546123,
+        },
         { id: 123, cacheIfType: 'function', revalidate: 546123 },
       ],
       [
-        { id: 123, query: () => Promise.resolve(123), cacheIf: () => Promise.resolve(true), revalidate: '7 days' },
+        {
+          id: 123,
+          query: () => Promise.resolve(123),
+          cacheIf: () => Promise.resolve(true),
+          revalidate: '7 days',
+        },
         { id: 123, cacheIfType: 'function', revalidate: ms('7 days') },
       ],
     ])('buildQueryOptions(%o) -> %o', (input, expected) => {
@@ -78,11 +86,11 @@ describe('Query Options', () => {
     });
 
     test('throws an error if the query is not a function', () => {
-      expect(() => buildQueryOptions({ query: 123 } as any)).toThrowError(ERRORS.INVALID_QUERY_FUNCTION);
+      expect(() => buildQueryOptions({ query: 123 } as any)).toThrowError(
+        ERRORS.INVALID_QUERY_FUNCTION,
+      );
     });
   });
-
-
 
   describe('canQueryBeCached', () => {
     test.each([
@@ -98,10 +106,6 @@ describe('Query Options', () => {
     });
   });
 });
-
-
-
-
 
 describe('Data Wrapping', () => {
   afterEach(() => {
@@ -122,7 +126,9 @@ describe('Data Wrapping', () => {
       const currentTime = Date.now();
       vi.useFakeTimers();
       vi.setSystemTime(currentTime);
-      expect(unwrapData({ data: { foo: 'baz' }, staleAt: currentTime + 1000 })).toStrictEqual({ foo: 'baz' });
+      expect(unwrapData({ data: { foo: 'baz' }, staleAt: currentTime + 1000 })).toStrictEqual({
+        foo: 'baz',
+      });
     });
 
     test('can unwrap stale data', () => {
