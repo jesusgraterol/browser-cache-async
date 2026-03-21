@@ -1,3 +1,4 @@
+import { ITimeString } from 'web-utils-kit';
 import { IRecordID } from 'browser-keyval-stores';
 
 /* ************************************************************************************************
@@ -12,47 +13,6 @@ import { IRecordID } from 'browser-keyval-stores';
 type ICacheIfFn<T> =
   | ((id: IRecordID, data: T) => Promise<boolean>)
   | ((id: IRecordID, data: T) => boolean);
-
-/**
- * String Value
- * Utility type to indicate that the value can be any template literal supported by the ms package.
- */
-type IUnit =
-  | 'Years'
-  | 'Year'
-  | 'Yrs'
-  | 'Yr'
-  | 'Y'
-  | 'Weeks'
-  | 'Week'
-  | 'W'
-  | 'Days'
-  | 'Day'
-  | 'D'
-  | 'Hours'
-  | 'Hour'
-  | 'Hrs'
-  | 'Hr'
-  | 'H'
-  | 'Minutes'
-  | 'Minute'
-  | 'Mins'
-  | 'Min'
-  | 'M'
-  | 'Seconds'
-  | 'Second'
-  | 'Secs'
-  | 'Sec'
-  | 's'
-  | 'Milliseconds'
-  | 'Millisecond'
-  | 'Msecs'
-  | 'Msec'
-  | 'Ms';
-
-type IUnitAnyCase = IUnit | Uppercase<IUnit> | Lowercase<IUnit>;
-
-type IStringValue = `${number}` | `${number}${IUnitAnyCase}` | `${number} ${IUnitAnyCase}`;
 
 /**
  * Query Options
@@ -71,7 +31,7 @@ type IQueryOptions<T> = {
 
   // the number of milliseconds the data will be fresh for before becoming stale. If not provided,
   // the data will become stale after 1 day.
-  revalidate?: IStringValue | number;
+  revalidate?: ITimeString | number;
 };
 
 /**
@@ -102,7 +62,6 @@ type IWrappedData<T> = {
 export type {
   // query options
   ICacheIfFn,
-  IStringValue,
   IQueryOptions,
   IProcessedQueryOptions,
 

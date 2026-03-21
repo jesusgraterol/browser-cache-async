@@ -225,6 +225,9 @@ await cache.revalidate(id);
 ## Tests
 
 ```bash
+# unit and integration tests
+npm run test
+
 # integration tests
 npm run test:integration
 

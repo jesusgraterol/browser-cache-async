@@ -1,9 +1,8 @@
-import ms from 'ms';
 import { encodeError } from 'error-message-utils';
+import { type ITimeString, toMS } from 'web-utils-kit';
 import { IRecordID } from 'browser-keyval-stores';
 import {
   ICacheIfFn,
-  IStringValue,
   IProcessedQueryOptions,
   IQueryOptions,
   IWrappedData,
@@ -20,23 +19,23 @@ import { ERRORS } from '../shared/errors.js';
  * @param value
  * @returns number | undefined
  */
-const __ms = (value: IStringValue): number | undefined => {
+const __ms = (value: ITimeString): number | undefined => {
   try {
-    return ms(value);
+    return toMS(value);
   } catch (e) {
     return undefined;
   }
 };
 
 /**
- * Given a StringValue or a number, returns the number of milliseconds before the data becomes
+ * Given a ITimeString or a number, returns the number of milliseconds before the data becomes
  * stale.
  * @param revalidate
  * @returns number
  * @throws
- * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or StringValue.
+ * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or ITimeString.
  */
-const calculateRevalidateTime = (revalidate: IStringValue | number = '1 day'): number => {
+const calculateRevalidateTime = (revalidate: ITimeString | number = '1 day'): number => {
   // init the result
   let result;
 
@@ -69,7 +68,7 @@ const calculateRevalidateTime = (revalidate: IStringValue | number = '1 day'): n
  * @returns IProcessedQueryOptions<T>
  * @throws
  * - INVALID_QUERY_FUNCTION: If the query function is not a function.
- * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or StringValue.
+ * - INVALID_REVALIDATE_VALUE: If the revalidate value is not a valid number or ITimeString.
  */
 const buildQueryOptions = <T>(options: IQueryOptions<T>): IProcessedQueryOptions<T> => {
   if (typeof options.query !== 'function') {
