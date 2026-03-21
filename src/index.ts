@@ -2,13 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-lonely-if */
 import { IIndexedDBStore, IndexedDBStore, IRecordID } from 'browser-keyval-stores';
-import {
-  ICacheIfFn,
-  IStringValue,
-  IQueryOptions,
-  IProcessedQueryOptions,
-  IWrappedData,
-} from './shared/types.js';
+import { ICacheIfFn, IQueryOptions, IProcessedQueryOptions, IWrappedData } from './shared/types.js';
 import { buildQueryOptions, canQueryBeCached, unwrapData, wrapData } from './utils/index.js';
 import { IBrowserCache } from './types.js';
 
@@ -130,7 +124,6 @@ class BrowserCache<T> implements IBrowserCache<T> {
 export {
   // types
   type ICacheIfFn,
-  type IStringValue,
   type IQueryOptions,
   type IProcessedQueryOptions,
   type IBrowserCache,
