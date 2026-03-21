@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { describe, test, expect, afterEach, vi } from 'vitest';
-import ms from 'ms';
+import { toMS } from 'web-utils-kit';
 import { ERRORS } from '../shared/errors.js';
 import {
   calculateRevalidateTime,
@@ -17,12 +17,9 @@ import {
 describe('Query Options', () => {
   describe('calculateRevalidateTime', () => {
     test.each<Array<any>>([
-      ['10 s', 10000],
-      ['10s', 10000],
-      ['2 m', 120000],
-      ['2m', 120000],
-      ['1 h', 3600000],
-      ['1h', 3600000],
+      ['10 seconds', 10000],
+      ['2 minutes', 120000],
+      ['1 hour', 3600000],
       [undefined, 86400000], // defaults to 1 day
     ])('calculateRevalidateTime(%s) -> %i', (input, expected) => {
       expect(calculateRevalidateTime(input)).toBe(expected);
@@ -74,7 +71,7 @@ describe('Query Options', () => {
           cacheIf: () => Promise.resolve(true),
           revalidate: '7 days',
         },
-        { id: 123, cacheIfType: 'function', revalidate: ms('7 days') },
+        { id: 123, cacheIfType: 'function', revalidate: toMS('7 days') },
       ],
     ])('buildQueryOptions(%o) -> %o', (input, expected) => {
       const opts = buildQueryOptions(input);
